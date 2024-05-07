@@ -4,6 +4,7 @@ A player by the name of Steve wants to create a new character, an adventurer by 
 
 
 #Testing Results
+
 Step 1. Create the character
 1. curl -X 'POST' \
     'http://127.0.0.1:3000/character?name=Bloodfeather' \
