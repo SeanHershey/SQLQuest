@@ -101,8 +101,10 @@ Note: Items are still subject to change
         "item_id": "integer",
         "item_name": "string", /* Unique to each item */
         "quantity": "integer", /* Non-negative */
-        "equipped": "integer", /* 0 if item is not equipped, >0 if item is equipped. Integer determines equip conflicts*/
-    }
+        "equipped": "boolean", 
+        "equip_slot": "string", /* Used to determine equipment conflicts */
+    },
+    ...
 ]
 ```
 
