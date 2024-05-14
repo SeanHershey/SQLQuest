@@ -5,18 +5,18 @@ from src import database as db
 router = APIRouter()
 
 
-@router.post("/signup", tags=["users"])
-def create_user(username: str, password: str):
+@router.post("/signup/", tags=["users"])
+def create_user(username: str):
     """
-    TODO: Create Character
+    Signup User 
     """
 
     with db.engine.begin() as connection:
         new_id = connection.execute(sqlalchemy.text(
             """
-                INSERT INTO users (username, password) VALUES (:username, :password) RETURNING ID
+                INSERT INTO users (username) VALUES (:username) RETURNING ID
             """),
-            {'username': username, 'password': password}).scalar_one()
+            {'username': username}).scalar_one()
 
     return new_id
 
@@ -25,7 +25,7 @@ def create_user(username: str, password: str):
 @router.get("/users/", tags=["users"])
 def get_users():
     """
-    TODO: Get Characters
+    Get Users
     """
 
     with db.engine.begin() as connection:
