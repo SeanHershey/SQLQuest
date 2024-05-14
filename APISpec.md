@@ -204,9 +204,32 @@ if all items can be purchased and are successfully transferred to player invento
 
 ```json
 {
-    "item_name": "string",
     "quantity": "integer"
 }
+```
+
+**Response**:
+
+```json
+{
+    "items_bought": "string",
+    "gold_paid": "integer"
+}
+```
+
+### 5s.3 Stock a shop - `/shop/{shop_id}` (POST)
+
+**Request**:
+
+```json
+[
+    {
+        "item_id": "integer",
+        "item_name": "string",
+        "quantity": "integer",
+        "price": "integer",
+    }
+]
 ```
 
 **Response**:
