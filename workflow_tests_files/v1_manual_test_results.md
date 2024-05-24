@@ -17,11 +17,11 @@ Step 2. Add starting inventory
     'http://127.0.0.1:3000/character/inventory?charID=3' \
     -H 'accept: application/json' \
     -d ''
-2. "OK"
+2. {"success": True}
 
 Step 3. Renaming the character with /character/rename
 1. curl -X 'POST' \
     'http://127.0.0.1:3000/character/rename?charID=3&name=Francie' \
     -H 'accept: application/json' \
     -d ''
-2. "OK"
+2. {"success": True}

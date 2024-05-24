@@ -16,5 +16,5 @@ def reset():
     TODO: Reset
     """
 
-    return "OK"
+    return {"success": True}
 

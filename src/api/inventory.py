@@ -108,7 +108,7 @@ def equip_item(char_id: int, item_id: int):
             status_string +=  item_name + " equipped to character: "+character_name.name + " to slot: "+ equip_slot 
             print(status_string)
             if status_string == "":
-                return {"sucess": False}
+                return {"success": False}
             else:
                 connection.execute(sqlalchemy.text(
                     """

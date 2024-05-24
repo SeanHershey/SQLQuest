@@ -28,17 +28,8 @@ def rename_character(charID: int, name: str):
                 UPDATE characters SET name = :name WHERE ID = :CharID
             """)
             ,{'CharID': charID, 'name': name})
-    return "OK"
-
-@router.post("/character/rename", tags=["characters"])
-def rename_character(charID: int, name: str):
-    with db.engine.begin() as connection:
-        connection.execute(sqlalchemy.text(
-            """
-                UPDATE characters SET name = :name WHERE ID = :CharID
-            """)
-            ,{'CharID': charID, 'name': name})
-    return "OK"
+    
+    return {"success": True}
 
 @router.post("/character/inventory", tags=["characters"])
 def character_start_inventory(charID: int):
@@ -48,24 +39,5 @@ def character_start_inventory(charID: int):
                 INSERT INTO inventory (equipped, quantity, char_id, item_id) VALUES (false, 1, :CharID, 1), (false, 1, :CharID, 2)
             """)
             ,{'CharID': charID})
-    return "OK"
-
-@router.get("/characters/", tags=["characters"])
-def get_characters():
-    """
-    TODO: Get Characters
-    """
-
-    with db.engine.begin() as connection:
-        result = connection.execute(sqlalchemy.text(
-            """
-                SELECT * FROM characters
-            """))
-
-    json = []
-    for character in result:
-        json.append(
-            {
-                "name": character.name})
-
-    return result
+    
+    return {"success": True}

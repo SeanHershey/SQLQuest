@@ -110,7 +110,7 @@ def begin_quest(
                 
             """), {'errorID': 0,'charID': charID, 'desc': "QUEST BEGAN: " + str(questID)})
     
-    return "OK"
+    return {"success": True}
 
 @router.post("/quests/complete", tags=["quests"])
 def complete_quest(
@@ -159,4 +159,4 @@ def complete_quest(
                 
             """), {'errorID': 0,'charID': charID, 'desc': "CHARACTER COMPLETED CURRENT QUEST: " + str(result)})
     
-    return "OK"
+    return {"success": True}
