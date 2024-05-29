@@ -8,3 +8,5 @@ Our equip logic checks for inventory capacity but is vulnerable to two or more c
 
 ## Buy 2 items at the same time
 When we buy 2 items at the same time the gold value of the player will not reflect this change as it is not currently a leger and the enough gold requirement check is vulnerable to concurrency issues which require locking when buying an item. 
+
+Note: Sequence Diagrams Can Be Found At File: CSC365 Concurrency
