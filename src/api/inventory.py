@@ -118,9 +118,13 @@ def equip_item(char_id: int, item_id: int):
                 ), { "description": status_string, "char_id": char_id})
                 return {"success": True}
 
+class TradeItem(BaseModel):
+    item_id: int
+    quantity: int
+
 class TradeOffer(BaseModel):
-    offer: list[dict[str, int]] 
-    request: list[dict[str, int]]
+    offer: list[TradeItem] 
+    request: list[TradeItem]
 
 @router.post("/inventory/{char_id_1}/trade/{char_id_2}", tags=["inventory"])
 def trade(char_id_1: int, char_id_2: int, trade_offer: TradeOffer):
