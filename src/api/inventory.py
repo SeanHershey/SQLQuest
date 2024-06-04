@@ -75,38 +75,39 @@ def equip_item(char_id: int, item_id: int):
                     """
                 ), {"char_id": char_id, "item_id": item_id})
                 status_string += item_name + " un-equipped from character: "+ character_name.name + " from slot: "+ equip_slot + " "
-            
-            # Check for conflicts in the same equip slot
-            conflict = connection.execute(sqlalchemy.text(
-                """
-                SELECT inventory.item_id, items.name
-                FROM inventory
-                JOIN items ON inventory.item_id = items.id
-                WHERE inventory.char_id = :char_id AND items.equip_slot = :equip_slot AND inventory.equipped = TRUE
-                """
-            ), {"char_id": char_id, "equip_slot": equip_slot}).fetchone()
-            
-            if conflict:
-                # Unequip the conflicting item
+                
+            else:
+                # Check for conflicts in the same equip slot
+                conflict = connection.execute(sqlalchemy.text(
+                    """
+                    SELECT inventory.item_id, items.name
+                    FROM inventory
+                    JOIN items ON inventory.item_id = items.id
+                    WHERE inventory.char_id = :char_id AND items.equip_slot = :equip_slot AND inventory.equipped = TRUE
+                    """
+                ), {"char_id": char_id, "equip_slot": equip_slot}).fetchone()
+                
+                if conflict:
+                    # Unequip the conflicting item
+                    connection.execute(sqlalchemy.text(
+                        """
+                        UPDATE inventory
+                        SET equipped = 0
+                        WHERE char_id = :char_id AND item_id = :conflicting_item_id
+                        """
+                    ), {"char_id": char_id, "conflicting_item_id": conflict.item_id})
+
+                    status_string +=  conflict.name + " un-equipped from character: " + character_name.name + " from slot: "+ equip_slot
+                # Equip the original item
                 connection.execute(sqlalchemy.text(
                     """
                     UPDATE inventory
-                    SET equipped = 0
-                    WHERE char_id = :char_id AND item_id = :conflicting_item_id
+                    SET equipped = TRUE
+                    WHERE char_id = :char_id AND item_id = :item_id
                     """
-                ), {"char_id": char_id, "conflicting_item_id": conflict.item_id})
-
-                status_string +=  conflict.name + " un-equipped from character: " + character_name.name + " from slot: "+ equip_slot
-            # Equip the original item
-            connection.execute(sqlalchemy.text(
-                """
-                UPDATE inventory
-                SET equipped = TRUE
-                WHERE char_id = :char_id AND item_id = :item_id
-                """
-            ), {"char_id": char_id, "item_id": item_id})
-            status_string +=  item_name + " equipped to character: "+character_name.name + " to slot: "+ equip_slot 
-            print(status_string)
+                ), {"char_id": char_id, "item_id": item_id})
+                status_string +=  item_name + " equipped to character: "+character_name.name + " to slot: "+ equip_slot 
+                print(status_string)
             if status_string == "":
                 return {"success": False}
             else:
