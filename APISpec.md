@@ -187,7 +187,7 @@ if all items can be purchased and are successfully transferred to player invento
 
 ```json
 {
-    "quantity": "integer"
+    "success": "boolean"
 }
 ```
 

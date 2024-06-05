@@ -41,6 +41,7 @@ def buy_item(char_id: int, item_id: int, quantity: int):
     """Buy an item from the shop."""
     stock_insert_sql = "INSERT INTO stock (shop_id, item_id, quantity) VALUES (:shop_id, :item_id, :quantity)"
     gold_insert_sql = "INSERT INTO gold_ledger (gold, char_id) VALUES (:gold, :char_id)"
+    price_select_sql = "SELECT sell_price FROM items WHERE item_id = :item_id"
     with db.engine.connect() as connection:
         connection.execute(
             sqlalchemy.text(stock_insert_sql),
@@ -50,14 +51,19 @@ def buy_item(char_id: int, item_id: int, quantity: int):
                 "quantity": quantity,
             }]
         )
+        price = connection.execute(
+            sqlalchemy.text(price_select_sql),
+            {"item_id": item_id}
+        ).scalar_one()
         connection.execute(
             sqlalchemy.text(gold_insert_sql),
             [{
-                "gold": -1,
+                "gold": -1 * price * quantity,
                 "char_id": char_id,
             }]
         )
-    return "not implemented"
+        return "success"
+    return "failure"
 
 @router.post("/shop/{shop_id}", tags=["shop"])
 def stock_shop(shop_id: int, items: List[Item]):
