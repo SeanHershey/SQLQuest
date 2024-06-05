@@ -20,7 +20,7 @@ class Item(BaseModel):
 @router.get("/shop", tags=["shop"])
 def get_shop(shop_id: int):
     """Get all items in the shop."""
-    get_shop_sql = "SELECT stock.item_id as item_id, items.item_name as item_name, COALESCE(SUM(stock.quantity),0) as quantity, items.sell_price as price FROM stock JOIN items ON stock.item_id = items.item_id WHERE stock.shop_id = :shop_id"
+    get_shop_sql = "SELECT stock.item_id as item_id, items.item_name as item_name, COALESCE(SUM(stock.quantity),0) as quantity, items.sell_price as price FROM stock JOIN items ON stock.item_id = items.id WHERE stock.shop_id = :shop_id"
     with db.engine.connect() as connection:
         result = connection.execute(
             sqlalchemy.text(get_shop_sql),
