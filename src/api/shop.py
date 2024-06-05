@@ -62,8 +62,8 @@ def buy_item(char_id: int, item_id: int, quantity: int):
                 "char_id": char_id,
             }]
         )
-        return "success"
-    return "failure"
+        return {"success": True}
+    return {"success": False}
 
 @router.post("/shop/{shop_id}", tags=["shop"])
 def stock_shop(shop_id: int, items: List[Item]):
@@ -79,5 +79,5 @@ def stock_shop(shop_id: int, items: List[Item]):
                     "quantity": item.quantity,
                 }]
             )
-        return "success"
-    return "failure"
+        return {"success": True}
+    return {"success": False}
